@@ -1,10 +1,10 @@
 import BaseLayout from "@/components/BaseLayout/BaseLayout";
-import Hero from "@/components/Hero/Hero";
+import Dashboard from "@/components/Hero/Hero";
 
 export default function Index() {
   return (
     <BaseLayout title={"Home"}>
-      <Hero />
+      <Dashboard />
     </BaseLayout>
   );
 }

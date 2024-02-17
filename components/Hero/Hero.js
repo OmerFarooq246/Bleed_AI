@@ -1,24 +1,38 @@
-export default function Hero(){
-    return(
+import React, { useState } from "react";
+import Form from "../form";
+import Bot from "../bot";
+
+export default function Dashboard() {
+    const [showForm, setShowForm] = useState(null);
+
+    const handleFormOption = () => {
+        setShowForm(true);
+    };
+
+    const handleBotOption = () => {
+        setShowForm(false);
+    };
+
+    return (
         <div className="hero h-full">
             <div className="front-hero h-full flex flex-col items-center justify-center">
-                <div className="flex flex-row space-x-3 w-4/12">
-                    {/* <a href="/projects" class="w-1/2">
-                        <div class="front shadow-md border border-slate-500 flex flex-col items-center text-center w-full pt-4 pb-5 px-1.5">
-                            <i class='bx bxs-package'></i>
-                            <h4 class="text-xl pt-1.5">View Models</h4>
-                            <p class="text-sm w-4/5 pt-1.5">View models maintained on the server</p>
-                        </div>
-                    </a>
-                    <a href="add_model" class="w-1/2">
-                        <div class="front shadow-md border border-slate-500 flex flex-col items-center text-center w-full pt-4 pb-5 px-1.5">
-                            <i class='bx bxs-plus-circle'></i>
-                            <h4 class="text-xl pt-1.5">Add Models</h4>
-                            <p class="text-sm w-4/5 pt-1.5">Add new models to host on the server</p>
-                        </div>
-                    </a> */}
-                </div>
+                {showForm === true && <Form />}
+                {showForm === false && (
+                    <div >
+                        <Bot />
+                    </div>
+                )}
+                {showForm === null && (
+                    <div className="flex space-x-10">
+                        <button 
+                        className="p-4 rounded-full bg-yellow-300 text-xl font-bold"
+                        onClick={handleFormOption}>Enter Required Info</button>
+                        <button
+                        className="p-4 rounded-full bg-yellow-300 text-xl font-bold"
+                        onClick={handleBotOption}>Interact with Bot</button>
+                    </div>
+                )}
             </div>
         </div>
-    )
+    );
 }
