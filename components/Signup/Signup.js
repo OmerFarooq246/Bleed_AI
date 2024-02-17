@@ -4,8 +4,8 @@ import { useState } from "react"
 import {useRouter} from "next/navigation";
 
 export default function Signup_form(){
-    const [signupData, setSignupData] = useState({first_name: "", last_name: "", email: "", password: ""})
-    const [error, setError] = useState({first_name: "", last_name: "", email: "", password: ""})
+    const [signupData, setSignupData] = useState({email: "", password: "", c_password: ""})
+    const [error, setError] = useState({email: "", password: "", c_password: ""})
     const router = useRouter()
 
     function handleChange(event){
@@ -27,52 +27,47 @@ export default function Signup_form(){
     async function handelSubmit(event){
         event.preventDefault()
         giveError()
-        if(signupData.first_name !== "" &&
-           signupData.last_name !== "" &&
-           signupData.email !== "" && 
-           signupData.password !== ""
-        ){
-            try{
-                const res = await axios.post("api/signup", {signupData: signupData})
-                router.push("/login")
-            }
-            catch (error){
-                if(error.request.status === 400){
-                    setError((prevError) => {return {...prevError, ["email"]: "- email already registered -"}})
-                }
-                console.log("error in signup: ")
-                console.log(error)
-            }
-        }
+        // if(signupData.first_name !== "" &&
+        //    signupData.last_name !== "" &&
+        //    signupData.email !== "" && 
+        //    signupData.password !== ""
+        // ){
+        //     try{
+        //         const res = await axios.post("api/signup", {signupData: signupData})
+        //         router.push("/login")
+        //     }
+        //     catch (error){
+        //         if(error.request.status === 400){
+        //             setError((prevError) => {return {...prevError, ["email"]: "- email already registered -"}})
+        //         }
+        //         console.log("error in signup: ")
+        //         console.log(error)
+        //     }
+        // }
     }
 
     return(
         <div className="h-full w-full flex flex-col items-center justify-center">
-            <h3 className={`w-1/4 text-center bg-gray-900 text-gray-50 py-1.5 font-bold mb-2 font-figtree`}>Account SignUp</h3>
-            <form onSubmit={handelSubmit} className="border border-gray-400 w-1/4 pt-4 py-5 px-4">
+            <h3 className={`w-2/6 text-center text-2xl font-bold mb-3 text-gray-700 font-figtree`}>Account SignUp</h3>
+            <form onSubmit={handelSubmit} className="w-2/6 pt-4 py-5 px-4">
                 <div className="mb-3 w-full">
-                    <label htmlFor="first_name" className={`text-sm font-semibold mb-1 block font-figtree`}>First Name</label>
-                    <input onChange={handleChange} value={signupData.first_name} type="text" name="first_name" id="first_name" className="focus:outline-none focus:shadow border border-gray-400 text-sm px-2.5 pt-1.5 pb-1.5 w-full" />
-                    {error.first_name && <p className="text-xs text-orange-700 mt-0.5 font-figtree">{error.first_name}</p>}
-                </div>
-                <div className="mb-3 w-full">
-                    <label htmlFor="last_name" className={`text-sm font-semibold mb-1 block font-figtree`}>Last Name</label>
-                    <input onChange={handleChange} value={signupData.last_name} type="text" name="last_name" id="last_name" className="focus:outline-none focus:shadow border border-gray-400 text-sm px-2.5 pt-1.5 pb-1.5 w-full" />
-                    {error.last_name && <p className="text-xs text-orange-700 mt-0.5 font-figtree">{error.last_name}</p>}
-                </div>
-                <div className="mb-3 w-full">
-                    <label htmlFor="email" className={`text-sm font-semibold mb-1 block font-figtree`}>Email</label>
-                    <input onChange={handleChange} value={signupData.email} type="text" name="email" id="email" className="focus:outline-none focus:shadow border border-gray-400 text-sm px-2.5 pt-1.5 pb-1.5 w-full" />
+                    <label htmlFor="email" className={`text-sm mb-1 block font-figtree`}>Email</label>
+                    <input onChange={handleChange} value={signupData.email} type="text" name="email" id="email" className="focus:outline-none focus:shadow focus:border-blue-400 border border-gray-300 rounded-md px-3.5 pt-1.5 pb-1.5 w-full" />
                     {error.email && <p className="text-xs text-orange-700 mt-0.5 font-figtree">{error.email}</p>}
                 </div>
-                <div className="mb-5 w-full">
-                    <label htmlFor="password" className={`text-sm font-semibold mb-1 block font-figtree`}>Password</label>
-                    <input onChange={handleChange} value={signupData.password} type="password" name="password" id="password" className="focus:outline-none focus:shadow border border-gray-400 text-sm px-2.5 pt-1.5 pb-1.5 w-full" />
+                <div className="mb-3 w-full">
+                    <label htmlFor="password" className={`text-sm mb-1 block font-figtree`}>Password</label>
+                    <input onChange={handleChange} value={signupData.password} type="password" name="password" id="password" className="focus:outline-none focus:shadow focus:border-blue-400 border border-gray-300 rounded-md px-3.5 pt-1.5 pb-1.5 w-full" />
                     {error.password && <p className="text-xs text-orange-700 mt-0.5 font-figtree">{error.password}</p>}
                 </div>
+                <div className="mb-5 w-full">
+                    <label htmlFor="c_password" className={`text-sm mb-1 block font-figtree`}>Confirm Password</label>
+                    <input onChange={handleChange} value={signupData.c_password} type="password" name="c_password" id="c_password" className="focus:outline-none focus:shadow focus:border-blue-400 border border-gray-300 rounded-md px-3.5 pt-1.5 pb-1.5 w-full" />
+                    {error.c_password && <p className="text-xs text-orange-700 mt-0.5 font-figtree">{error.c_password}</p>}
+                </div>
                 <div className="w-full flex flex-row space-x-2">
-                    <button type="submit" className={`border border-gray-400 w-1/2 py-1.5 text-sm font-figtree font-semibold hover:bg-gray-900 hover:text-gray-50 hover:border-gray-50`}>SignUp</button>
-                    <Link href="/" className={`text-center border border-gray-400 w-1/2 py-1.5 text-sm font-figtree font-semibold hover:bg-gray-900 hover:text-gray-50 hover:border-gray-50`}>Cancel</Link>
+                    <button type="submit" 
+                    className={`w-full py-2 font-figtree font-medium text-white bg-indigo-500 hover:bg-indigo-600 rounded-md`}>SignUp</button>
                 </div>
             </form>
         </div>

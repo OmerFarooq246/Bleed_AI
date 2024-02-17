@@ -27,41 +27,41 @@ export default function Login_form(){
     async function handleSubmit(event){
         event.preventDefault()
         giveError()
-        try{
-            const res = await signIn('credentials', {...loginData, redirect: false})
-            console.log("res in login: ", res)
-            if(res.status === 401){
-                setError((prevError) => {return {...prevError, ["credentials"]: "- credentials are incorrect -"}})
-            }
-            else if(res.status === 200){
-                setError((prevError) => {return {...prevError, ["credentials"]: ""}})
-                router.push("/")
-            }
-        }
-        catch(error){
-            console.log("error in login: ")
-            console.log(error)
-        }
+        // try{
+        //     const res = await signIn('credentials', {...loginData, redirect: false})
+        //     console.log("res in login: ", res)
+        //     if(res.status === 401){
+        //         setError((prevError) => {return {...prevError, ["credentials"]: "- credentials are incorrect -"}})
+        //     }
+        //     else if(res.status === 200){
+        //         setError((prevError) => {return {...prevError, ["credentials"]: ""}})
+        //         router.push("/")
+        //     }
+        // }
+        // catch(error){
+        //     console.log("error in login: ")
+        //     console.log(error)
+        // }
     }
 
     return(
         <div className="h-full w-full flex flex-col items-center justify-center">
-            <h3 className={`w-1/4 text-center bg-gray-900 text-gray-50 py-1.5 font-bold mb-2 font-figtree`}>Account Login</h3>
-            <form onSubmit={handleSubmit} className="border border-gray-400 w-1/4 pt-4 py-5 px-4">
+            <h3 className={`w-2/6 text-center text-2xl font-bold mb-3 text-gray-700 font-figtree`}>Account Login</h3>
+            <form onSubmit={handleSubmit} className="w-2/6 pt-4 py-5 px-4">
                 <div className="mb-3 w-full">
-                    <label htmlFor="email" className={`text-sm font-semibold mb-1 block font-figtree`}>Email</label>
-                    <input onChange={handleChange} value={loginData.email} type="text" name="email" id="email" className="focus:outline-none focus:shadow border border-gray-400 text-sm px-2.5 pt-1.5 pb-1.5 w-full" />
+                    <label htmlFor="email" className={`text-sm mb-1 block font-figtree`}>Email</label>
+                    <input onChange={handleChange} value={loginData.email} type="text" name="email" id="email" className="focus:outline-none focus:shadow focus:border-blue-400 border border-gray-300 rounded-md px-3.5 pt-1.5 pb-1.5 w-full" />
                     {error.email !== "" && <p className="text-xs text-orange-700 mt-0.5 font-figtree">{error.email}</p>}
                 </div>
                 <div className="mb-5 w-full">
-                    <label htmlFor="password" className={`text-sm font-semibold mb-1 block font-figtree`}>Password</label>
-                    <input onChange={handleChange} value={loginData.password} type="password" name="password" id="password" className="focus:outline-none focus:shadow border border-gray-400 text-sm px-2.5 pt-1.5 pb-1.5 w-full" />
+                    <label htmlFor="password" className={`text-sm mb-1 block font-figtree`}>Password</label>
+                    <input onChange={handleChange} value={loginData.password} type="password" name="password" id="password" className="focus:outline-none focus:shadow focus:border-blue-400 border border-gray-300 rounded-md px-3.5 pt-1.5 pb-1.5 w-full" />
                     {error.password !== "" && <p className="text-xs text-orange-700 mt-0.5 font-figtree">{error.password}</p>}
                     {error.credentials !== "" && <p className="text-xs text-orange-700 mt-0.5 font-figtree">{error.credentials}</p>}
                 </div>
                 <div className="w-full flex flex-row space-x-2">
-                    <button type="submit" className={`border border-gray-400 w-1/2 py-1.5 text-sm font-figtree font-semibold hover:bg-gray-900 hover:text-gray-50 hover:border-gray-50`}>Login</button>
-                    <Link href="/" className={`text-center border border-gray-400 w-1/2 py-1.5 text-sm font-figtree font-semibold hover:bg-gray-900 hover:text-gray-50 hover:border-gray-50`}>Cancel</Link>
+                    <button type="submit" 
+                    className={`w-full py-2 font-figtree font-medium text-white bg-indigo-500 hover:bg-indigo-600 rounded-md`}>Login</button>
                 </div>
             </form>
         </div>
