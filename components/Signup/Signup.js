@@ -22,28 +22,29 @@ export default function Signup_form(){
                 setError((prevError) => {return {...prevError, [key]: ""}})
             }
         })
+        if(signupData.password !== signupData.c_password){
+            setError((prevError) => {return {...prevError, ["c_password"]: "- passwords do not match -"}})
+        }
     }
 
     async function handelSubmit(event){
         event.preventDefault()
         giveError()
-        // if(signupData.first_name !== "" &&
-        //    signupData.last_name !== "" &&
-        //    signupData.email !== "" && 
-        //    signupData.password !== ""
-        // ){
-        //     try{
-        //         const res = await axios.post("api/signup", {signupData: signupData})
-        //         router.push("/login")
-        //     }
-        //     catch (error){
-        //         if(error.request.status === 400){
-        //             setError((prevError) => {return {...prevError, ["email"]: "- email already registered -"}})
-        //         }
-        //         console.log("error in signup: ")
-        //         console.log(error)
-        //     }
-        // }
+        if(signupData.email !== "" && 
+           signupData.password !== ""
+        ){
+            try{
+                const res = await axios.post("api/signup", {signupData: signupData})
+                router.push("/login")
+            }
+            catch (error){
+                if(error.request.status === 400){
+                    setError((prevError) => {return {...prevError, ["email"]: "- email already registered -"}})
+                }
+                console.log("error in signup: ")
+                console.log(error)
+            }
+        }
     }
 
     return(
