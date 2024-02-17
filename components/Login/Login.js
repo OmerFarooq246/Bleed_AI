@@ -27,21 +27,25 @@ export default function Login_form(){
     async function handleSubmit(event){
         event.preventDefault()
         giveError()
-        // try{
-        //     const res = await signIn('credentials', {...loginData, redirect: false})
-        //     console.log("res in login: ", res)
-        //     if(res.status === 401){
-        //         setError((prevError) => {return {...prevError, ["credentials"]: "- credentials are incorrect -"}})
-        //     }
-        //     else if(res.status === 200){
-        //         setError((prevError) => {return {...prevError, ["credentials"]: ""}})
-        //         router.push("/")
-        //     }
-        // }
-        // catch(error){
-        //     console.log("error in login: ")
-        //     console.log(error)
-        // }
+        if(loginData.email !== "" &&
+           loginData.password !== ""
+        ){
+            try{
+                const res = await signIn('credentials', {...loginData, redirect: false}) //credentials is the type of provider, redirect false to prevent redirect to auth's own signin page
+                console.log("res in login: ", res)
+                if(res.status === 401){
+                    setError((prevError) => {return {...prevError, ["credentials"]: "- credentials are incorrect -"}})
+                }
+                else if(res.status === 200){
+                    setError((prevError) => {return {...prevError, ["credentials"]: ""}})
+                    router.push("/")
+                }
+            }
+            catch(error){
+                console.log("error in login: ")
+                console.log(error)
+            }
+        }
     }
 
     return(
