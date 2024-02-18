@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import Form from "../form";
 import Bot from "../bot";
 
 export default function Dashboard() {
+  const session = useSession();
   const [showForm, setShowForm] = useState(null);
   const [conversationId, setConversationId] = useState(null);
 
@@ -55,6 +57,7 @@ export default function Dashboard() {
             >
               Interact with Bot
             </button>
+            <h3 className="bg-gray-100">ABC: {session.status}</h3>
           </div>
         )}
       </div>
