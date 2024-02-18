@@ -7,6 +7,7 @@ export default function Form({ conversationId }) {
   const [bot, setBot] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  console.log(conversationId)
   const [formData, setFormData] = useState({
     jobTitle: "",
     companyDescription: "",
@@ -31,24 +32,22 @@ export default function Form({ conversationId }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+
     // create query with heading then data
     const query = `Job Title: ${formData.jobTitle} Company Description: ${formData.companyDescription} Company Projects: ${formData.companyProjects} Hiring Reasons: ${formData.hiringReasons} Duties and Involvement: ${formData.dutiesAndInvolvement} Interview Strategy: ${formData.interviewStrategy} Salary and Benefits: ${formData.salaryAndBenefits} Hiring Timeline: ${formData.hiringTimeline} Ideal Candidate Profile: ${formData.idealCandidateProfile} Inclusivity Language: ${formData.inclusivityLanguage}`;
     console.log(query);
     try {
       setLoading(true);
-      const response = await fetch(
-        "https://talentai-service-5oyupglq2q-uc.a.run.app/ask-job-description-agent",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            conversation_id: conversationId,
-            query: query,
-          }),
-        }
-      );
+      const url = `https://talentai-service-5oyupglq2q-uc.a.run.app/ask-job-description-agent?conversation_id=${conversationId}&query=${query}`;
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json' // Add accept header
+        },
+        body: JSON.stringify({}) // Empty body as per API documentation
+      });
       const data = await response.json();
       console.log(data);
       setMessage(data.response);
@@ -223,7 +222,7 @@ export default function Form({ conversationId }) {
           className="p-4 rounded-full w-full bg-yellow-300 text-xl font-bold"
           onClick={handleSubmit}
         >
-          {loading ? <Loader /> : "Submit"}
+          {loading ? <Loader height={8} width={8} /> : "Submit"}
         </button>
       </div>
       {bot ? (

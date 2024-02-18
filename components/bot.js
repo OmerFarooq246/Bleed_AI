@@ -3,18 +3,22 @@ import { useRouter } from "next/router";
 import Loader from "./loader";
 
 const Message = ({ text, from }) => (
-  <div
-    className={`mb-2 ${
-      from === "bot" ? "text-gray-700" : "text-blue-700 text-right"
-    }`}
-  >
-    {text}
+  <div className={`mb-4 flex ${from === "bot" ? "justify-start" : "justify-end"}`}>
+    {from === "bot" && (
+      <div className="w-12 h-12 bg-gradient-to-r from-red-400 to-yellow-300 rounded-xl mr-2"></div>
+    )}
+    <div className={`p-3 rounded-xl ${from === "bot" ? "bg-gray-200" : "bg-blue-200"} text-black max-w-xl`}>
+      {from === "bot" && <strong>Bot: </strong>}
+      {text}
+    </div>
   </div>
 );
+
 
 export default function Bot({ conversationId,message="" }) {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const router = useRouter();
 
@@ -45,20 +49,17 @@ export default function Bot({ conversationId,message="" }) {
       { text: inputMessage, from: "user" },
     ]);
     setInputMessage("");
-
-    const response = await fetch(
-      "https://talentai-service-5oyupglq2q-uc.a.run.app/ask-job-description-agent",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          conversation_id: conversationId,
-          query: inputMessage,
-        }),
-      }
-    );
+    setLoading(true);
+    const url = `https://talentai-service-5oyupglq2q-uc.a.run.app/ask-job-description-agent?conversation_id=${conversationId}&query=${inputMessage}`;
+    try{
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        accept: "application/json", // Add accept header
+      },
+      body: JSON.stringify({}), // Empty body as per API documentation
+    });
     const data = await response.json();
     console.log(data);
     const botResponse = data.response;
@@ -67,11 +68,17 @@ export default function Bot({ conversationId,message="" }) {
       ...prevMessages,
       { text: botResponse, from: "bot" },
     ]);
+    setLoading(false);
+    }
+    catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
   };
 
   const handleNextStep = () => {
     console.log("Next step");
-    router.push("/jobDescription");
+    router.push(`/jobDescription/${conversationId}`);
   };
 
   return (
@@ -97,7 +104,7 @@ export default function Bot({ conversationId,message="" }) {
                 onClick={handleSendMessage}
                 className=" bg-yellow-300 px-8 py-2 rounded-full font-bold"
               >
-                Send
+                {loading ? <Loader height={8} width={8}/> : "Send"}
               </button>
               <button
                 onClick={handleNextStep}
