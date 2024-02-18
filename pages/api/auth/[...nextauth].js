@@ -19,7 +19,6 @@ export default async function handler(req, res){
                     //check if email registered or not
                     try{
                         const user = await db.collection("Users").findOne({email: req.body.email})
-                        // const user = await prisma.users.findUnique({where: {email: req.body.email}})
                         if (user === null){
                             console.log("email not in db")
                             throw new Error('No user found')
@@ -49,7 +48,13 @@ export default async function handler(req, res){
                 }
             })
         ],
-        secret: process.env.NEXTAUTH_SECRET
+        secret: process.env.NEXTAUTH_SECRET,
+        session: {
+            strategy: 'jwt'
+        },
+        pages:{
+            signIn: "/login"
+        }
     }
     return NextAuth(req, res, configuration)
 }
