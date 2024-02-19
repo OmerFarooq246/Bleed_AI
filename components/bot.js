@@ -104,7 +104,7 @@ export default function Bot({ conversationId,message="" }) {
                 onClick={handleSendMessage}
                 className=" bg-yellow-300 px-8 py-2 rounded-full font-bold"
               >
-                {loading ? <Loader height={8} width={8}/> : "Send"}
+                {loading ? <Loader height={10} /> : "Send"}
               </button>
               <button
                 onClick={handleNextStep}
