@@ -1,20 +1,55 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
+import { Figtree } from "next/font/google"
+const figtree = Figtree({subsets: ['latin']})
 
 export default function Header() {
     const session = useSession()
     return (
         <header>
-            <nav className="bg-yellow-300 border-gray-200 px-4 lg:px-6 py-2.5 ">
+            <nav className="bg-gray-100 shadow-md border-gray-200 px-4 lg:px-6 py-2.5">
+                <div className=" flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+                    <Link href="/" className={`lg:w-1/3 text-blue-950 ${figtree.className} self-center text-2xl font-extrabold whitespace-nowrap`}>BleedAI</Link>
+                    <div className="lg:w-1/3 flex items-center lg:order-2 lg:justify-end">
+                        {session.status === "unauthenticated"
+                        ? <div className="flex flex-row items-center space-x-1">
+                            <Link href="/login" className={`text-gray-100 ${figtree.className} font-medium bg-blue-900 text-gray-50 transition ease-out duration-200 hover:drop-shadow-lg rounded-md text-sm px-4 lg:px-3 py-2 lg:py-1.5 mr-0 focus:outline-none`}>Log in</Link>
+                            <Link href="/signup" className={`text-blue-950 ${figtree.className} font-medium rounded-md text-sm px-4 lg:px-3 py-2 lg:py-1.5 focus:outline-none bg-gray-100 transition duration-200 ease-out hover:shadow-[0_1px_3px_1px_rgba(23,37,84,0.2)]`}>SignUp</Link>
+                        </div>
+                        : <button onClick={() => signOut({ callbackUrl: '/login' })} className={`text-blue-950 ${figtree.className} font-medium rounded-md text-sm px-4 lg:px-3 py-2 lg:py-1.5 focus:outline-none bg-gray-100 transition duration-200 ease-out hover:shadow-[0_1px_3px_1px_rgba(23,37,84,0.2)]`}>SignOut</button>
+                        }
+                        <button data-collapse-toggle="mobile-menu-2" type="button" className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200  dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
+                            <span className="sr-only">Open main menu</span>
+                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
+                            <svg className="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+                        </button>
+                    </div>
+                    <div className="lg:w-1/3 hidden justify-between items-center lg:justify-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
+                        <ul className="flex flex-col mt-4 font-medium text-blue-950 lg:flex-row lg:space-x-1 lg:mt-0">
+                            <li><Link href="/" className={`${figtree.className} px-3 py-1.5 rounded-md bg-gray-100 transition duration-200 ease-out hover:shadow-[0_1px_3px_1px_rgba(23,37,84,0.2)]`} aria-current="page">Home</Link></li>
+                            <li><Link href="stage_1" className={`${figtree.className} px-3 py-1.5 rounded-md bg-gray-100 transition duration-200 ease-out hover:shadow-[0_1px_3px_1px_rgba(23,37,84,0.2)]`}>Stage_1</Link></li>
+                            {/* <li><Link href="/" className={`${figtree.className} px-1 py-0.5 border-transparent border-b-2 transition-colors duration-200 ease-in hover:border-blue-950`} aria-current="page">Home</Link></li>
+                            <li><Link href="stage_1" className={`${figtree.className} px-1 py-0.5 border-transparent border-b-2 transition-colors duration-200 ease-in hover:border-blue-950`}>Stage_1</Link></li> */}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    );
+}
+
+
+{/* <header>
+            <nav className="bg-yellow-300 border-gray-200 px-4 lg:px-6 py-2.5">
                 <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-                    <span className="self-center text-xl font-semibold whitespace-nowrap ">BleedAI</span>
+                    <Link href="/" className={`${figtree.className} self-center text-2xl font-extrabold whitespace-nowrap`}>BleedAI</Link>
                     <div className="flex items-center lg:order-2">
                         {session.status === "unauthenticated"
-                        ? <div className="border border-red-500">
-                            <Link href="/login" className="text-gray-800  hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none ">Log in</Link>
-                            <Link href="/signup" className="text-gray-800  hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none ">SignUp</Link>
+                        ? <div>
+                            <Link href="/login" className={`${figtree.className} font-medium text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 rounded-md text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none`}>Log in</Link>
+                            <Link href="/signup" className={`${figtree.className} font-medium text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 rounded-md text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none`}>SignUp</Link>
                         </div>
-                        : <button onClick={() => signOut()} className="text-gray-800  hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none ">SignOut</button>
+                        : <button onClick={() => signOut({ callbackUrl: '/login' })} className="text-gray-800  hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none ">SignOut</button>
                         }
                         <button data-collapse-toggle="mobile-menu-2" type="button" className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200  dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
                             <span className="sr-only">Open main menu</span>
@@ -24,16 +59,10 @@ export default function Header() {
                     </div>
                     <div className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
                         <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-                            <li>
-                                <Link href="/" className="block py-2 pr-4 pl-3 text-gray-700 rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 " aria-current="page">Home</Link>
-                            </li>
-                            <li>
-                                <Link href="stage_1" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0  lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Stage_1</Link>
-                            </li>
+                            <li><Link href="/" className="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 " aria-current="page">Home</Link></li>
+                            <li><Link href="stage_1" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0  lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Stage_1</Link></li>
                         </ul>
                     </div>
                 </div>
             </nav>
-        </header>
-    );
-}
+        </header> */}
