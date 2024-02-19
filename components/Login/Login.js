@@ -65,7 +65,7 @@ export default function Login_form(){
                 </div>
                 <div className="w-full flex flex-row space-x-2">
                     <button type="submit" 
-                    className={`w-full py-2 font-figtree font-medium text-white bg-indigo-500 hover:bg-indigo-600 rounded-md`}>Login</button>
+                    className={`w-full py-2 font-figtree font-medium text-white bg-bleed-red hover:bg-bleed-red-hover hover:shadow-md rounded-md`}>Login</button>
                 </div>
             </form>
         </div>
