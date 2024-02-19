@@ -51,7 +51,7 @@ export default function Login_form(){
     return(
         <div className="h-full w-full flex flex-col items-center justify-center">
             <h3 className={`w-2/6 text-center text-2xl font-bold mb-3 text-gray-700 font-figtree`}>Account Login</h3>
-            <form onSubmit={handleSubmit} className="w-2/6 pt-4 py-5 px-4">
+            <form className="w-2/6 pt-4 py-5 px-4">
                 <div className="mb-3 w-full">
                     <label htmlFor="email" className={`text-sm mb-1 block font-figtree`}>Email</label>
                     <input onChange={handleChange} value={loginData.email} type="text" name="email" id="email" className="focus:outline-none focus:shadow focus:border-blue-400 border border-gray-300 rounded-md px-3.5 pt-1.5 pb-1.5 w-full" />
@@ -64,7 +64,8 @@ export default function Login_form(){
                     {error.credentials !== "" && <p className="text-xs text-orange-700 mt-0.5 font-figtree">{error.credentials}</p>}
                 </div>
                 <div className="w-full flex flex-row space-x-2">
-                    <button type="submit" 
+                    <button 
+                    onClick={handleSubmit}
                     className={`w-full py-2 font-figtree font-medium text-white bg-bleed-red hover:bg-bleed-red-hover hover:shadow-md rounded-md`}>Login</button>
                 </div>
             </form>
