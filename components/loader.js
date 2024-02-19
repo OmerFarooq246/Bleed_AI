@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Loader({height,width}) {
+export default function Loader({height,width=6}) {
   return (
     <div class="text-center">
       <div role="status">

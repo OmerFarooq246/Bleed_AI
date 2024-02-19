@@ -222,7 +222,7 @@ export default function Form({ conversationId }) {
           className="p-4 rounded-full w-full bg-yellow-300 text-xl font-bold"
           onClick={handleSubmit}
         >
-          {loading ? <Loader height={8} width={8} /> : "Submit"}
+          {loading ? <Loader height={8} width={6} /> : "Submit"}
         </button>
       </div>
       {bot ? (

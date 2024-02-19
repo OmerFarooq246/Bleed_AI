@@ -10,6 +10,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const initializeAgent = async () => {
+      try{
       const response = await fetch(
         "https://talentai-service-5oyupglq2q-uc.a.run.app/initialize-job-description-agent",
         {
@@ -22,6 +23,10 @@ export default function Dashboard() {
       const data = await response.json();
       console.log(data);
       setConversationId(data.conversation_id);
+      }
+      catch (error) {
+        console.error("Error initializing agent:", error.message);
+      }
     };
     initializeAgent();
   }, []);
@@ -37,9 +42,25 @@ export default function Dashboard() {
   return (
     <div className=" h-full">
       <div className=" h-full flex flex-col items-center justify-center">
-        {showForm === true && <Form conversationId={conversationId} />}
+        {showForm === true && 
+        <div className="">
+          <button
+            className="p-4 rounded-full bg-yellow-300 text-xl font-bold"
+            onClick={() => setShowForm(null)} 
+          >
+            Go Back
+          </button>
+        <Form conversationId={conversationId} />
+        </div>
+        }
         {showForm === false && (
           <div>
+            <button
+              className="p-4 rounded-full bg-yellow-300 text-xl font-bold"
+              onClick={() => setShowForm(null)}
+            >
+              Go Back
+            </button>
             <Bot conversationId={conversationId} />
           </div>
         )}
@@ -57,7 +78,6 @@ export default function Dashboard() {
             >
               Interact with Bot
             </button>
-            <h3 className="bg-gray-100">ABC: {session.status}</h3>
           </div>
         )}
       </div>
